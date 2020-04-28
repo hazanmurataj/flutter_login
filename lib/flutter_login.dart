@@ -208,6 +208,7 @@ class FlutterLogin extends StatefulWidget {
     @required this.onSignup,
     @required this.onLogin,
     @required this.onRecoverPassword,
+    this.additionalSignUpFields,
     this.title = 'LOGIN',
     this.logo,
     this.messages,
@@ -228,6 +229,11 @@ class FlutterLogin extends StatefulWidget {
 
   /// Called when the user hit the submit button when in recover password mode
   final RecoverCallback onRecoverPassword;
+
+  /// Widget put at the bottom of confirm password with additional fields
+  /// Validation and usage of the value of fields should be done separately,
+  /// this widget only shows them
+  final Widget additionalSignUpFields;
 
   /// The large text above the login [Card], usually the app or company name
   final String title;
@@ -581,6 +587,7 @@ class _FlutterLoginState extends State<FlutterLogin>
                         passwordValidator: passwordValidator,
                         onSubmit: _reverseHeaderAnimation,
                         onSubmitCompleted: widget.onSubmitAnimationCompleted,
+                        additionalSignUpFields: widget.additionalSignUpFields,
                       ),
                     ),
                     Positioned(

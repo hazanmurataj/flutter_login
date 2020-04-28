@@ -170,6 +170,18 @@ class LoginScreen extends StatelessWidget {
         // Show new password dialog
       },
       showDebugButtons: true,
+      additionalSignUpFields: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text('Test title'),
+          Row(
+            children: <Widget>[
+              Checkbox(value: true, onChanged: null),
+              Text('Test')
+            ],
+          )
+        ],
+      ),
     );
   }
 }
