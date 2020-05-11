@@ -209,6 +209,7 @@ class FlutterLogin extends StatefulWidget {
     @required this.onLogin,
     @required this.onRecoverPassword,
     this.additionalSignUpFields,
+    this.bottomWidget,
     this.title = 'LOGIN',
     this.logo,
     this.messages,
@@ -234,6 +235,9 @@ class FlutterLogin extends StatefulWidget {
   /// Validation and usage of the value of fields should be done separately,
   /// this widget only shows them
   final Widget additionalSignUpFields;
+
+  /// If provided will be put at the bottom of the auth car.
+  final Widget bottomWidget;
 
   /// The large text above the login [Card], usually the app or company name
   final String title;
@@ -588,6 +592,7 @@ class _FlutterLoginState extends State<FlutterLogin>
                         onSubmit: _reverseHeaderAnimation,
                         onSubmitCompleted: widget.onSubmitAnimationCompleted,
                         additionalSignUpFields: widget.additionalSignUpFields,
+                        bottomWidget: widget.bottomWidget,
                       ),
                     ),
                     Positioned(

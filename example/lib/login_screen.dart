@@ -182,6 +182,15 @@ class LoginScreen extends StatelessWidget {
           )
         ],
       ),
+      bottomWidget: Column(
+        children: <Widget>[
+          Text('or'),
+          FlatButton(
+            child: Text('Login with facebook'),
+            onPressed: () => print('login with facebook pressed'),
+          )
+        ],
+      ),
     );
   }
 }

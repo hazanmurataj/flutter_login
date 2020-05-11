@@ -20,16 +20,17 @@ import '../paddings.dart';
 import '../widget_helper.dart';
 
 class AuthCard extends StatefulWidget {
-  AuthCard(
-      {Key key,
-      this.padding = const EdgeInsets.all(0),
-      this.loadingController,
-      this.emailValidator,
-      this.passwordValidator,
-      this.onSubmit,
-      this.onSubmitCompleted,
-      this.additionalSignUpFields})
-      : super(key: key);
+  AuthCard({
+    Key key,
+    this.padding = const EdgeInsets.all(0),
+    this.loadingController,
+    this.emailValidator,
+    this.passwordValidator,
+    this.onSubmit,
+    this.onSubmitCompleted,
+    this.additionalSignUpFields,
+    this.bottomWidget,
+  }) : super(key: key);
 
   final EdgeInsets padding;
   final AnimationController loadingController;
@@ -38,6 +39,7 @@ class AuthCard extends StatefulWidget {
   final Function onSubmit;
   final Function onSubmitCompleted;
   final Widget additionalSignUpFields;
+  final Widget bottomWidget;
 
   @override
   AuthCardState createState() => AuthCardState();
@@ -298,6 +300,7 @@ class AuthCardState extends State<AuthCard> with TickerProviderStateMixin {
                       });
                     },
                     additionalSignUpFields: widget.additionalSignUpFields,
+                    bottomWidget: widget.bottomWidget,
                   ),
                 )
               : _RecoverCard(
@@ -330,16 +333,17 @@ class AuthCardState extends State<AuthCard> with TickerProviderStateMixin {
 }
 
 class _LoginCard extends StatefulWidget {
-  _LoginCard(
-      {Key key,
-      this.loadingController,
-      @required this.emailValidator,
-      @required this.passwordValidator,
-      @required this.onSwitchRecoveryPassword,
-      this.onSwitchAuth,
-      this.onSubmitCompleted,
-      this.additionalSignUpFields})
-      : super(key: key);
+  _LoginCard({
+    Key key,
+    this.loadingController,
+    @required this.emailValidator,
+    @required this.passwordValidator,
+    @required this.onSwitchRecoveryPassword,
+    this.onSwitchAuth,
+    this.onSubmitCompleted,
+    this.additionalSignUpFields,
+    this.bottomWidget,
+  }) : super(key: key);
 
   final AnimationController loadingController;
   final FormFieldValidator<String> emailValidator;
@@ -348,6 +352,7 @@ class _LoginCard extends StatefulWidget {
   final Function onSwitchAuth;
   final Function onSubmitCompleted;
   final Widget additionalSignUpFields;
+  final Widget bottomWidget;
 
   @override
   _LoginCardState createState() => _LoginCardState();
@@ -699,11 +704,23 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
       ),
     );
 
-    return FittedBox(
+    var card = FittedBox(
       child: Card(
         elevation: _showShadow ? theme.cardTheme.elevation : 0,
         child: authForm,
       ),
+    );
+
+    return ListView(
+      children: <Widget>[
+        Center(child: card),
+        widget.bottomWidget != null
+            ? Padding(
+          padding: EdgeInsets.only(top: 16),
+          child: widget.bottomWidget,
+        )
+            : Container()
+      ],
     );
   }
 }
