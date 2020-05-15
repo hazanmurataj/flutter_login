@@ -612,18 +612,15 @@ class _FlutterLoginState extends State<FlutterLogin>
                   children: <Widget>[
                     _buildHeader(headerHeight, loginTheme),
                     SizedBox(height: 20),
-                    Container(
-                      color: Colors.green,
-                      child: AuthCard(
-                        key: authCardKey,
-                        loadingController: _loadingController,
-                        emailValidator: emailValidator,
-                        passwordValidator: passwordValidator,
-                        onSubmit: _reverseHeaderAnimation,
-                        onSubmitCompleted: widget.onSubmitAnimationCompleted,
-                        additionalSignUpFields: widget.additionalSignUpFields,
-                        bottomWidget: widget.bottomWidget,
-                      ),
+                    AuthCard(
+                      key: authCardKey,
+                      loadingController: _loadingController,
+                      emailValidator: emailValidator,
+                      passwordValidator: passwordValidator,
+                      onSubmit: _reverseHeaderAnimation,
+                      onSubmitCompleted: widget.onSubmitAnimationCompleted,
+                      additionalSignUpFields: widget.additionalSignUpFields,
+                      bottomWidget: widget.bottomWidget,
                     ),
                   ],
                 ),
