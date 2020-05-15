@@ -712,6 +712,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
     );
 
     return ListView(
+      shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       children: <Widget>[
         Center(child: card),
