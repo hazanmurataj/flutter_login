@@ -576,28 +576,48 @@ class _FlutterLoginState extends State<FlutterLogin>
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
+//            SingleChildScrollView(
+//              child: Theme(
+//                data: theme,
+//                child: Stack(
+//                  alignment: Alignment.center,
+//                  children: <Widget>[
+//                    Positioned(
+//                      child: AuthCard(
+//                        key: authCardKey,
+//                        padding: EdgeInsets.only(top: cardTopPosition),
+//                        loadingController: _loadingController,
+//                        emailValidator: emailValidator,
+//                        passwordValidator: passwordValidator,
+//                        onSubmit: _reverseHeaderAnimation,
+//                        onSubmitCompleted: widget.onSubmitAnimationCompleted,
+//                        additionalSignUpFields: widget.additionalSignUpFields,
+//                        bottomWidget: widget.bottomWidget,
+//                      ),
+//                    ),
+//                    Positioned(
+//                      top: cardTopPosition - headerHeight - headerMargin,
+//                      child: _buildHeader(headerHeight, loginTheme),
+//                    ),
+//                  ],
+//                ),
+//              ),
+//            ),
             SingleChildScrollView(
               child: Theme(
                 data: theme,
-                child: Stack(
-                  alignment: Alignment.center,
+                child: Column(
                   children: <Widget>[
-                    Positioned(
-                      child: AuthCard(
-                        key: authCardKey,
-                        padding: EdgeInsets.only(top: cardTopPosition),
-                        loadingController: _loadingController,
-                        emailValidator: emailValidator,
-                        passwordValidator: passwordValidator,
-                        onSubmit: _reverseHeaderAnimation,
-                        onSubmitCompleted: widget.onSubmitAnimationCompleted,
-                        additionalSignUpFields: widget.additionalSignUpFields,
-                        bottomWidget: widget.bottomWidget,
-                      ),
-                    ),
-                    Positioned(
-                      top: cardTopPosition - headerHeight - headerMargin,
-                      child: _buildHeader(headerHeight, loginTheme),
+                    _buildHeader(headerHeight, loginTheme),
+                    AuthCard(
+                      key: authCardKey,
+                      loadingController: _loadingController,
+                      emailValidator: emailValidator,
+                      passwordValidator: passwordValidator,
+                      onSubmit: _reverseHeaderAnimation,
+                      onSubmitCompleted: widget.onSubmitAnimationCompleted,
+                      additionalSignUpFields: widget.additionalSignUpFields,
+                      bottomWidget: widget.bottomWidget,
                     ),
                   ],
                 ),
