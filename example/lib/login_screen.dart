@@ -169,7 +169,7 @@ class LoginScreen extends StatelessWidget {
         return _recoverPassword(name);
         // Show new password dialog
       },
-      showDebugButtons: false,
+      showDebugButtons: true,
       additionalSignUpFields: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
