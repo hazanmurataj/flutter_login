@@ -40,6 +40,7 @@ class AnimatedTextFormField extends StatefulWidget {
     this.obscureText = false,
     this.controller,
     this.focusNode,
+    this.onChanged,
     this.validator,
     this.onFieldSubmitted,
     this.onSaved,
@@ -63,6 +64,7 @@ class AnimatedTextFormField extends StatefulWidget {
   final FormFieldValidator<String> validator;
   final ValueChanged<String> onFieldSubmitted;
   final FormFieldSetter<String> onSaved;
+  final Function onChanged;
   final TextFieldInertiaDirection inertiaDirection;
 
   @override
@@ -211,6 +213,7 @@ class _AnimatedTextFormFieldState extends State<AnimatedTextFormField> {
       textInputAction: widget.textInputAction,
       obscureText: widget.obscureText,
       onFieldSubmitted: widget.onFieldSubmitted,
+      onChanged: widget.onChanged,
       onSaved: widget.onSaved,
       validator: widget.validator,
       enabled: widget.enabled,
@@ -246,6 +249,7 @@ class _AnimatedTextFormFieldState extends State<AnimatedTextFormField> {
 }
 
 class AnimatedPasswordTextFormField extends StatefulWidget {
+
   AnimatedPasswordTextFormField({
     Key key,
     this.interval = const Interval(0.0, 1.0),
@@ -260,6 +264,7 @@ class AnimatedPasswordTextFormField extends StatefulWidget {
     this.controller,
     this.focusNode,
     this.validator,
+    this.onChanged,
     this.onFieldSubmitted,
     this.onSaved,
   })  : assert((inertiaController == null && inertiaDirection == null) ||
@@ -276,6 +281,7 @@ class AnimatedPasswordTextFormField extends StatefulWidget {
   final TextInputAction textInputAction;
   final TextEditingController controller;
   final FocusNode focusNode;
+  final Function onChanged;
   final FormFieldValidator<String> validator;
   final ValueChanged<String> onFieldSubmitted;
   final FormFieldSetter<String> onSaved;
@@ -335,6 +341,7 @@ class _AnimatedPasswordTextFormFieldState
       controller: widget.controller,
       focusNode: widget.focusNode,
       validator: widget.validator,
+      onChanged: widget.onChanged,
       onFieldSubmitted: widget.onFieldSubmitted,
       onSaved: widget.onSaved,
       inertiaDirection: widget.inertiaDirection,

@@ -12,9 +12,11 @@ class AnimatedButton extends StatefulWidget {
     @required this.controller,
     this.loadingColor,
     this.color,
+    this.enabled,
   }) : super(key: key);
 
   final String text;
+  final bool enabled;
   final Color color;
   final Color loadingColor;
   final Function onPressed;
@@ -188,7 +190,7 @@ class _AnimatedButtonState extends State<AnimatedButton>
           animation: _colorAnimation,
           builder: (context, child) => Material(
             shape: buttonTheme.shape,
-            color: _colorAnimation.value,
+            color: widget.enabled ? _colorAnimation.value : Colors.grey,
             child: child,
             shadowColor: _color,
             elevation: !_isLoading
@@ -198,7 +200,7 @@ class _AnimatedButtonState extends State<AnimatedButton>
                 : 0,
           ),
           child: InkWell(
-            onTap: !_isLoading ? widget.onPressed : null,
+            onTap: !_isLoading && widget.enabled ? widget.onPressed : null,
             splashColor: buttonTheme.splashColor,
             customBorder: buttonTheme.shape,
             onHighlightChanged: (value) => setState(() => _hover = value),

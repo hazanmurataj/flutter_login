@@ -19,6 +19,9 @@ import '../matrix.dart';
 import '../paddings.dart';
 import '../widget_helper.dart';
 
+var enableSubmitButton = false;
+
+
 class AuthCard extends StatefulWidget {
   AuthCard({
     Key key,
@@ -40,6 +43,7 @@ class AuthCard extends StatefulWidget {
   final Function onSubmitCompleted;
   final Widget additionalSignUpFields;
   final Widget bottomWidget;
+
 
   @override
   AuthCardState createState() => AuthCardState();
@@ -472,6 +476,9 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
     } else {
       _switchAuthController.reverse();
     }
+
+    validateFields(auth);
+
   }
 
   Future<bool> _submit() async {
@@ -516,6 +523,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
         setState(() => _showShadow = true);
       });
       setState(() => _isSubmitting = false);
+
       return false;
     }
 
@@ -524,20 +532,25 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
     return true;
   }
 
-  Widget _buildNameField(double width, LoginMessages messages, Auth auth) {
+  Widget _buildNameField(double width, LoginMessages messages, Auth auth, Function onChanged) {
     return AnimatedTextFormField(
       controller: _nameController,
       width: width,
       loadingController: _loadingController,
       interval: _nameTextFieldLoadingAnimationInterval,
       labelText: messages.usernameHint,
+      onChanged: (_){
+        onTextChange(auth);
+      },
       prefixIcon: Icon(FontAwesomeIcons.solidUserCircle),
       keyboardType: TextInputType.emailAddress,
       textInputAction: TextInputAction.next,
+
       onFieldSubmitted: (value) {
         FocusScope.of(context).requestFocus(_passwordFocusNode);
       },
       validator: widget.emailValidator,
+
       onSaved: (value) => auth.email = value,
     );
   }
@@ -545,10 +558,14 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
   Widget _buildPasswordField(double width, LoginMessages messages, Auth auth) {
     return AnimatedPasswordTextFormField(
       animatedWidth: width,
+
       loadingController: _loadingController,
       interval: _passTextFieldLoadingAnimationInterval,
       labelText: messages.passwordHint,
       controller: _passController,
+      onChanged: (_){
+        onTextChange(auth);
+      },
       textInputAction:
           auth.isLogin ? TextInputAction.done : TextInputAction.next,
       focusNode: _passwordFocusNode,
@@ -575,6 +592,9 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
       inertiaDirection: TextFieldInertiaDirection.right,
       labelText: messages.confirmPasswordHint,
       controller: _confirmPassController,
+      onChanged: (_){
+        onTextChange(auth);
+      },
       textInputAction: TextInputAction.done,
       focusNode: _confirmPasswordFocusNode,
       onFieldSubmitted: (value) => _submit(),
@@ -619,6 +639,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
       scale: _buttonScaleAnimation,
       child: AnimatedButton(
         controller: _submitController,
+        enabled: enableSubmitButton,
         text: auth.isLogin ? messages.loginButton : messages.signupButton,
         onPressed: _submit,
       ),
@@ -646,6 +667,10 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
     );
   }
 
+  void onTextChange(Auth auth){
+      validateFields(auth);
+  }
+
   @override
   Widget build(BuildContext context) {
     final auth = Provider.of<Auth>(context, listen: true);
@@ -670,7 +695,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                _buildNameField(textFieldWidth, messages, auth),
+                _buildNameField(textFieldWidth, messages, auth, onTextChange),
                 SizedBox(height: 20),
                 _buildPasswordField(textFieldWidth, messages, auth),
                 SizedBox(height: 10),
@@ -709,7 +734,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
             child: Column(
               children: <Widget>[
                 _buildForgotPassword(theme, messages),
-                _buildSubmitButton(theme, messages, auth),
+                 _buildSubmitButton(theme, messages, auth),
                 _buildSwitchAuthButton(theme, messages, auth),
               ],
             ),
@@ -738,6 +763,19 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
             : Container()
       ],
     );
+  }
+
+  void validateFields(Auth auth) {
+    String name = _nameController.text;
+    String password = _passController.text;
+    String confirmPassword = _confirmPassController.text;
+    setState(() {
+      if(auth.isSignup) {
+        enableSubmitButton = name.isNotEmpty && password.isNotEmpty && confirmPassword.isNotEmpty;
+      }else{
+        enableSubmitButton = name.isNotEmpty && password.isNotEmpty;
+      }
+    });
   }
 }
 
@@ -829,6 +867,7 @@ class _RecoverCardState extends State<_RecoverCard>
       controller: _submitController,
       text: messages.recoverPasswordButton,
       onPressed: !_isSubmitting ? _submit : null,
+      enabled: enableSubmitButton,
     );
   }
 
