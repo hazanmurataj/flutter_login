@@ -192,7 +192,7 @@ class _AnimatedButtonState extends State<AnimatedButton>
             shape: buttonTheme.shape,
             color: widget.enabled ? _colorAnimation.value : Colors.grey,
             child: child,
-            shadowColor: _color,
+            shadowColor: widget.enabled ? _color : Colors.grey,
             elevation: !_isLoading
                 ? (_hover
                     ? buttonTheme.highlightElevation
