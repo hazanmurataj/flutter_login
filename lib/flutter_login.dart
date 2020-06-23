@@ -603,27 +603,25 @@ class _FlutterLoginState extends State<FlutterLogin>
 //                ),
 //              ),
 //            ),
-            SingleChildScrollView(
-              child: Theme(
-                data: theme,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    _buildHeader(headerHeight, loginTheme),
-                    SizedBox(height: 20),
-                    AuthCard(
-                      key: authCardKey,
-                      loadingController: _loadingController,
-                      emailValidator: emailValidator,
-                      passwordValidator: passwordValidator,
-                      onSubmit: _reverseHeaderAnimation,
-                      onSubmitCompleted: widget.onSubmitAnimationCompleted,
-                      additionalSignUpFields: widget.additionalSignUpFields,
-                      bottomWidget: widget.bottomWidget,
-                    ),
-                  ],
-                ),
+            Theme(
+              data: theme,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  _buildHeader(headerHeight, loginTheme),
+                  SizedBox(height: 20),
+                  AuthCard(
+                    key: authCardKey,
+                    loadingController: _loadingController,
+                    emailValidator: emailValidator,
+                    passwordValidator: passwordValidator,
+                    onSubmit: _reverseHeaderAnimation,
+                    onSubmitCompleted: widget.onSubmitAnimationCompleted,
+                    additionalSignUpFields: widget.additionalSignUpFields,
+                    bottomWidget: widget.bottomWidget,
+                  ),
+                ],
               ),
             ),
             if (!kReleaseMode && widget.showDebugButtons)
