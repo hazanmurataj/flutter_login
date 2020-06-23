@@ -617,6 +617,7 @@ class _FlutterLoginState extends State<FlutterLogin>
                     emailValidator: emailValidator,
                     passwordValidator: passwordValidator,
                     onSubmit: _reverseHeaderAnimation,
+                    paddingTop: headerHeight,
                     onSubmitCompleted: widget.onSubmitAnimationCompleted,
                     additionalSignUpFields: widget.additionalSignUpFields,
                     bottomWidget: widget.bottomWidget,

@@ -31,6 +31,7 @@ class AuthCard extends StatefulWidget {
     this.passwordValidator,
     this.onSubmit,
     this.onSubmitCompleted,
+    this.paddingTop,
     this.additionalSignUpFields,
     this.bottomWidget,
   }) : super(key: key);
@@ -40,6 +41,7 @@ class AuthCard extends StatefulWidget {
   final FormFieldValidator<String> emailValidator;
   final FormFieldValidator<String> passwordValidator;
   final Function onSubmit;
+  final double paddingTop;
   final Function onSubmitCompleted;
   final Widget additionalSignUpFields;
   final Widget bottomWidget;
@@ -287,7 +289,7 @@ class AuthCardState extends State<AuthCard> with TickerProviderStateMixin {
     final theme = Theme.of(context);
     final deviceSize = MediaQuery.of(context).size;
     Widget current = Container(
-      height: deviceSize.height,
+      height: deviceSize.height - widget.paddingTop - 20,
       width: deviceSize.width,
       padding: widget.padding,
       child: TransformerPageView(
