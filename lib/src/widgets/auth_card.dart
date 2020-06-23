@@ -21,7 +21,6 @@ import '../widget_helper.dart';
 
 var enableSubmitButton = false;
 
-
 class AuthCard extends StatefulWidget {
   AuthCard({
     Key key,
@@ -33,6 +32,7 @@ class AuthCard extends StatefulWidget {
     this.onSubmitCompleted,
     this.paddingTop,
     this.additionalSignUpFields,
+    this.pageChangedListener,
     this.bottomWidget,
   }) : super(key: key);
 
@@ -40,6 +40,7 @@ class AuthCard extends StatefulWidget {
   final AnimationController loadingController;
   final FormFieldValidator<String> emailValidator;
   final FormFieldValidator<String> passwordValidator;
+  final Function pageChangedListener;
   final Function onSubmit;
   final double paddingTop;
   final Function onSubmitCompleted;
@@ -312,6 +313,7 @@ class AuthCardState extends State<AuthCard> with TickerProviderStateMixin {
                         : (_formLoadingController..value = 1.0),
                     emailValidator: widget.emailValidator,
                     passwordValidator: widget.passwordValidator,
+                      pageChangedListener: widget.pageChangedListener,
                     onSwitchRecoveryPassword: () => _switchRecovery(true),
                     onSubmitCompleted: () {
                       _forwardChangeRouteAnimation().then((_) {
@@ -363,6 +365,7 @@ class _LoginCard extends StatefulWidget {
     this.onSubmitCompleted,
     this.additionalSignUpFields,
     this.bottomWidget,
+    this.pageChangedListener,
   }) : super(key: key);
 
   final AnimationController loadingController;
@@ -371,6 +374,7 @@ class _LoginCard extends StatefulWidget {
   final Function onSwitchRecoveryPassword;
   final Function onSwitchAuth;
   final Function onSubmitCompleted;
+  final Function pageChangedListener;
   final Widget additionalSignUpFields;
   final Widget bottomWidget;
 
@@ -771,6 +775,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
     String name = _nameController.text;
     String password = _passController.text;
     String confirmPassword = _confirmPassController.text;
+    widget.pageChangedListener(auth.isSignup);
     setState(() {
       if(auth.isSignup) {
         enableSubmitButton = name.isNotEmpty && password.isNotEmpty && confirmPassword.isNotEmpty;

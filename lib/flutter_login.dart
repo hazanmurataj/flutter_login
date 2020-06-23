@@ -305,6 +305,7 @@ class _FlutterLoginState extends State<FlutterLogin>
   AnimationController _logoController;
   AnimationController _titleController;
   double _selectTimeDilation = 1.0;
+  bool showAppLogo = true;
 
   @override
   void initState() {
@@ -537,6 +538,13 @@ class _FlutterLoginState extends State<FlutterLogin>
     );
   }
 
+  void pageChangedListener(bool isSignUpPage){
+    print("SHOW APP ${!isSignUpPage}");
+    setState(() {
+      showAppLogo = !isSignUpPage;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final loginTheme = widget.theme ?? LoginTheme();
@@ -610,20 +618,23 @@ class _FlutterLoginState extends State<FlutterLogin>
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    _buildHeader(headerHeight, loginTheme),
+                   AnimatedSize(
+                       vsync: this,
+                       curve: Curves.fastOutSlowIn,
+                       duration: Duration(milliseconds: 1000),
+                       child: _buildHeader(showAppLogo ? headerHeight : 0, loginTheme)),
                     SizedBox(height: 20),
-                    Container(
-                      child: AuthCard(
-                        key: authCardKey,
-                        loadingController: _loadingController,
-                        emailValidator: emailValidator,
-                        passwordValidator: passwordValidator,
-                        onSubmit: _reverseHeaderAnimation,
-                        paddingTop: headerHeight,
-                        onSubmitCompleted: widget.onSubmitAnimationCompleted,
-                        additionalSignUpFields: widget.additionalSignUpFields,
-                        bottomWidget: widget.bottomWidget,
-                      ),
+                    AuthCard(
+                      key: authCardKey,
+                      loadingController: _loadingController,
+                      emailValidator: emailValidator,
+                      passwordValidator: passwordValidator,
+                      onSubmit: _reverseHeaderAnimation,
+                      paddingTop: headerHeight,
+                      pageChangedListener: pageChangedListener,
+                      onSubmitCompleted: widget.onSubmitAnimationCompleted,
+                      additionalSignUpFields: widget.additionalSignUpFields,
+                      bottomWidget: widget.bottomWidget,
                     ),
                   ],
                 ),
