@@ -618,11 +618,15 @@ class _FlutterLoginState extends State<FlutterLogin>
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                   AnimatedSize(
-                       vsync: this,
-                       curve: Curves.fastOutSlowIn,
-                       duration: Duration(milliseconds: 1000),
-                       child: _buildHeader(showAppLogo ? headerHeight : 0, loginTheme)),
+                   Container(
+                     color: Colors.transparent,
+                     child: AnimatedContainer(
+                         curve: Curves.easeIn,
+                         duration: Duration(milliseconds: 700),
+                         height: showAppLogo ? headerHeight : 0,
+                         width: MediaQuery.of(context).size.width,
+                         child: _buildHeader(headerHeight, loginTheme)),
+                   ),
                     SizedBox(height: 20),
                     AuthCard(
                       key: authCardKey,
