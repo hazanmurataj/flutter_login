@@ -34,6 +34,7 @@ class AuthCard extends StatefulWidget {
     this.additionalSignUpFields,
     this.pageChangedListener,
     this.bottomWidget,
+    this.privacyPolicyAccepted,
   }) : super(key: key);
 
   final EdgeInsets padding;
@@ -46,6 +47,7 @@ class AuthCard extends StatefulWidget {
   final Function onSubmitCompleted;
   final Widget additionalSignUpFields;
   final Widget bottomWidget;
+  final Stream privacyPolicyAccepted;
 
 
   @override
@@ -322,6 +324,7 @@ class AuthCardState extends State<AuthCard> with TickerProviderStateMixin {
                     },
                     additionalSignUpFields: widget.additionalSignUpFields,
                     bottomWidget: widget.bottomWidget,
+                    privacyPolicyAccepted: widget.privacyPolicyAccepted,
                   ),
                 )
               : _RecoverCard(
