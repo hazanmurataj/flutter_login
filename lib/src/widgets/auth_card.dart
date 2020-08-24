@@ -763,7 +763,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
         Center(child: card),
         widget.bottomWidget != null
             ? Padding(
-                padding: EdgeInsets.only(top: 16),
+                padding: EdgeInsets.only(top: 6),
                 child: widget.bottomWidget,
               )
             : Container()
