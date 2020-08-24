@@ -366,6 +366,7 @@ class _LoginCard extends StatefulWidget {
     this.additionalSignUpFields,
     this.bottomWidget,
     this.pageChangedListener,
+    this.privacyPolicyAccepted,
   }) : super(key: key);
 
   final AnimationController loadingController;
@@ -377,6 +378,7 @@ class _LoginCard extends StatefulWidget {
   final Function pageChangedListener;
   final Widget additionalSignUpFields;
   final Widget bottomWidget;
+  final Stream privacyPolicyAccepted;
 
   @override
   _LoginCardState createState() => _LoginCardState();
@@ -392,6 +394,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
   TextEditingController _passController;
   TextEditingController _confirmPassController;
 
+  var privacyPolicyAccepted = false;
   var _isLoading = false;
   var _isSubmitting = false;
   var _showShadow = true;
@@ -417,6 +420,11 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
     _nameController = TextEditingController(text: auth.email);
     _passController = TextEditingController(text: auth.password);
     _confirmPassController = TextEditingController(text: auth.confirmPassword);
+
+    widget.privacyPolicyAccepted.listen((event) {
+      privacyPolicyAccepted = event;
+      validateFields(auth);
+    });
 
     _loadingController = widget.loadingController ??
         (AnimationController(
@@ -778,7 +786,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
     widget.pageChangedListener(auth.isSignup);
     setState(() {
       if(auth.isSignup) {
-        enableSubmitButton = name.isNotEmpty && password.isNotEmpty && confirmPassword.isNotEmpty;
+        enableSubmitButton = name.isNotEmpty && password.isNotEmpty && confirmPassword.isNotEmpty && privacyPolicyAccepted;
       }else{
         enableSubmitButton = name.isNotEmpty && password.isNotEmpty;
       }
