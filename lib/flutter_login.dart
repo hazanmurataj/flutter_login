@@ -180,7 +180,7 @@ class __HeaderState extends State<_Header> {
     }
 
     return SizedBox(
-      //height: widget.height,
+      height: widget.height,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
@@ -630,7 +630,9 @@ class _FlutterLoginState extends State<FlutterLogin>
                          duration: Duration(milliseconds: 700),
                          height: showAppLogo ? headerHeight : 0,
                          width: MediaQuery.of(context).size.width,
-                         child: _buildHeader(headerHeight, loginTheme)),
+                         child: Container(
+                             color: Colors.black26,
+                             child: _buildHeader(headerHeight, loginTheme))),
                    ),
                     SizedBox(height: 20),
                     AuthCard(
