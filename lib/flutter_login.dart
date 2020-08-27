@@ -554,7 +554,7 @@ class _FlutterLoginState extends State<FlutterLogin>
     final theme = _mergeTheme(theme: Theme.of(context), loginTheme: loginTheme);
     final deviceSize = MediaQuery.of(context).size;
     const headerMargin = 15;
-    const cardInitialHeight = 320;
+    const cardInitialHeight = 310;
     final cardTopPosition = deviceSize.height / 2 - cardInitialHeight / 2;
     final headerHeight = cardTopPosition - headerMargin;
     final emailValidator =
