@@ -629,10 +629,9 @@ class _FlutterLoginState extends State<FlutterLogin>
                          height: showAppLogo ? headerHeight : 0,
                          width: MediaQuery.of(context).size.width,
                          child: Container(
-                             color: Colors.black26,
                              child: _buildHeader(headerHeight, loginTheme))),
                    ),
-                    SizedBox(height: 20),
+                    SizedBox(height: 16),
                     AuthCard(
                       key: authCardKey,
                       loadingController: _loadingController,
