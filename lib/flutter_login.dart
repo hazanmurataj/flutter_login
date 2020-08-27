@@ -145,7 +145,7 @@ class __HeaderState extends State<_Header> {
         ? Image.asset(
             widget.logoPath,
             filterQuality: FilterQuality.high,
-            height: logoHeight,
+            height: logoHeight - 20,
           )
         : NullWidget();
 
