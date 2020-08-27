@@ -168,17 +168,19 @@ class __HeaderState extends State<_Header> {
         viewState: ViewState.enlarged,
       );
     } else if (!DartHelper.isNullOrEmpty(widget.title)) {
-      title = Text(
-        widget.title,
-        key: kTitleKey,
-        style: theme.textTheme.display2,
+      title = Padding(
+        child: Text(
+          widget.title,
+          key: kTitleKey,
+          style: theme.textTheme.display2,
+        ),
       );
     } else {
       title = null;
     }
 
     return SizedBox(
-      height: widget.height,
+      //height: widget.height,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
