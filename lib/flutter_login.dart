@@ -480,7 +480,7 @@ class _FlutterLoginState extends State<FlutterLogin>
       cardTheme: theme.cardTheme.copyWith(
         clipBehavior: cardTheme.clipBehavior,
         color: cardTheme.color ?? theme.cardColor,
-        elevation: cardTheme.elevation ?? 12.0,
+        elevation: cardTheme.elevation ?? 5.0,
         margin: cardTheme.margin ?? const EdgeInsets.all(4.0),
         shape: cardTheme.shape ??
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
