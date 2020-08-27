@@ -168,12 +168,10 @@ class __HeaderState extends State<_Header> {
         viewState: ViewState.enlarged,
       );
     } else if (!DartHelper.isNullOrEmpty(widget.title)) {
-      title = Padding(
-        child: Text(
-          widget.title,
-          key: kTitleKey,
-          style: theme.textTheme.display2,
-        ),
+      title = Text(
+        widget.title,
+        key: kTitleKey,
+        style: theme.textTheme.display2,
       );
     } else {
       title = null;
