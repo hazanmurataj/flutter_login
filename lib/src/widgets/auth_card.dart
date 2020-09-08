@@ -20,6 +20,7 @@ import '../paddings.dart';
 import '../widget_helper.dart';
 
 var enableSubmitButton = false;
+var enableRecoverButton = false;
 
 class AuthCard extends StatefulWidget {
   AuthCard({
@@ -875,9 +876,23 @@ class _RecoverCardState extends State<_RecoverCard>
       keyboardType: TextInputType.emailAddress,
       textInputAction: TextInputAction.done,
       onFieldSubmitted: (value) => _submit(),
+      onChanged: (_){
+        onTextChange(auth);
+      },
       validator: widget.emailValidator,
       onSaved: (value) => auth.email = value,
     );
+  }
+
+  void onTextChange(Auth auth){
+    validateFields(auth);
+  }
+
+  void validateFields(Auth auth) {
+    String name = _nameController.text;
+    setState(() {
+      enableRecoverButton = name.isNotEmpty;
+    });
   }
 
   Widget _buildRecoverButton(ThemeData theme, LoginMessages messages) {
@@ -885,7 +900,7 @@ class _RecoverCardState extends State<_RecoverCard>
       controller: _submitController,
       text: messages.recoverPasswordButton,
       onPressed: !_isSubmitting ? _submit : null,
-      enabled: enableSubmitButton,
+      enabled: enableRecoverButton,
     );
   }
 
