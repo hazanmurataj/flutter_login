@@ -50,7 +50,6 @@ class AuthCard extends StatefulWidget {
   final Widget bottomWidget;
   final Stream privacyPolicyAccepted;
 
-
   @override
   AuthCardState createState() => AuthCardState();
 }
@@ -134,8 +133,10 @@ class AuthCardState extends State<AuthCard> with TickerProviderStateMixin {
       parent: _routeTransitionController,
       curve: Interval(.72727272, 1 /* ~300ms */, curve: Curves.easeInOutCubic),
     ));
-    _cardTranslateX = Tween<double>(begin: 0, end: 0).animate(_routeTransitionController);
-    _cardTranslateY = Tween<double>(begin: 0, end: 0).animate(_routeTransitionController);
+    _cardTranslateX =
+        Tween<double>(begin: 0, end: 0).animate(_routeTransitionController);
+    _cardTranslateY =
+        Tween<double>(begin: 0, end: 0).animate(_routeTransitionController);
   }
 
   @override
@@ -316,7 +317,7 @@ class AuthCardState extends State<AuthCard> with TickerProviderStateMixin {
                         : (_formLoadingController..value = 1.0),
                     emailValidator: widget.emailValidator,
                     passwordValidator: widget.passwordValidator,
-                      pageChangedListener: widget.pageChangedListener,
+                    pageChangedListener: widget.pageChangedListener,
                     onSwitchRecoveryPassword: () => _switchRecovery(true),
                     onSubmitCompleted: () {
                       _forwardChangeRouteAnimation().then((_) {
@@ -425,7 +426,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
     _passController = TextEditingController(text: auth.password);
     _confirmPassController = TextEditingController(text: auth.confirmPassword);
 
-    widget.privacyPolicyAccepted.listen((event) {
+    widget.privacyPolicyAccepted?.listen((event) {
       privacyPolicyAccepted = event;
       validateFields(auth);
     });
@@ -496,7 +497,6 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
     }
 
     validateFields(auth);
-
   }
 
   Future<bool> _submit() async {
@@ -550,25 +550,24 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
     return true;
   }
 
-  Widget _buildNameField(double width, LoginMessages messages, Auth auth, Function onChanged) {
+  Widget _buildNameField(
+      double width, LoginMessages messages, Auth auth, Function onChanged) {
     return AnimatedTextFormField(
       controller: _nameController,
       width: width,
       loadingController: _loadingController,
       interval: _nameTextFieldLoadingAnimationInterval,
       labelText: messages.usernameHint,
-      onChanged: (_){
+      onChanged: (_) {
         onTextChange(auth);
       },
       prefixIcon: Icon(FontAwesomeIcons.solidUserCircle),
       keyboardType: TextInputType.emailAddress,
       textInputAction: TextInputAction.next,
-
       onFieldSubmitted: (value) {
         FocusScope.of(context).requestFocus(_passwordFocusNode);
       },
       validator: widget.emailValidator,
-
       onSaved: (value) => auth.email = value,
     );
   }
@@ -576,12 +575,11 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
   Widget _buildPasswordField(double width, LoginMessages messages, Auth auth) {
     return AnimatedPasswordTextFormField(
       animatedWidth: width,
-
       loadingController: _loadingController,
       interval: _passTextFieldLoadingAnimationInterval,
       labelText: messages.passwordHint,
       controller: _passController,
-      onChanged: (_){
+      onChanged: (_) {
         onTextChange(auth);
       },
       textInputAction:
@@ -610,7 +608,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
       inertiaDirection: TextFieldInertiaDirection.right,
       labelText: messages.confirmPasswordHint,
       controller: _confirmPassController,
-      onChanged: (_){
+      onChanged: (_) {
         onTextChange(auth);
       },
       textInputAction: TextInputAction.done,
@@ -685,8 +683,8 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
     );
   }
 
-  void onTextChange(Auth auth){
-      validateFields(auth);
+  void onTextChange(Auth auth) {
+    validateFields(auth);
   }
 
   @override
@@ -752,7 +750,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
             child: Column(
               children: <Widget>[
                 _buildForgotPassword(theme, messages),
-                 _buildSubmitButton(theme, messages, auth),
+                _buildSubmitButton(theme, messages, auth),
                 _buildSwitchAuthButton(theme, messages, auth),
               ],
             ),
@@ -773,11 +771,13 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
       physics: NeverScrollableScrollPhysics(),
       children: <Widget>[
         Center(child: card),
-        widget.bottomWidget != null
-            ? Padding(
-                padding: EdgeInsets.only(top: 6),
-                child: widget.bottomWidget,
-              )
+        isLogin
+            ? (widget.bottomWidget != null
+                ? Padding(
+                    padding: EdgeInsets.only(top: 6),
+                    child: widget.bottomWidget,
+                  )
+                : Container())
             : Container()
       ],
     );
@@ -789,9 +789,12 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
     String confirmPassword = _confirmPassController.text;
     widget.pageChangedListener(auth.isSignup);
     setState(() {
-      if(auth.isSignup) {
-        enableSubmitButton = name.isNotEmpty && password.isNotEmpty && confirmPassword.isNotEmpty && privacyPolicyAccepted;
-      }else{
+      if (auth.isSignup) {
+        enableSubmitButton = name.isNotEmpty &&
+            password.isNotEmpty &&
+            confirmPassword.isNotEmpty &&
+            privacyPolicyAccepted;
+      } else {
         enableSubmitButton = name.isNotEmpty && password.isNotEmpty;
       }
     });
@@ -876,7 +879,7 @@ class _RecoverCardState extends State<_RecoverCard>
       keyboardType: TextInputType.emailAddress,
       textInputAction: TextInputAction.done,
       onFieldSubmitted: (value) => _submit(),
-      onChanged: (_){
+      onChanged: (_) {
         onTextChange(auth);
       },
       validator: widget.emailValidator,
@@ -884,7 +887,7 @@ class _RecoverCardState extends State<_RecoverCard>
     );
   }
 
-  void onTextChange(Auth auth){
+  void onTextChange(Auth auth) {
     validateFields(auth);
   }
 
@@ -932,10 +935,10 @@ class _RecoverCardState extends State<_RecoverCard>
     return WillPopScope(
       onWillPop: !_isSubmitting
           ? () {
-        _formRecoverKey.currentState.save();
-        widget.onSwitchLogin();
-        return Future.delayed(Duration.zero, () => false);
-      }
+              _formRecoverKey.currentState.save();
+              widget.onSwitchLogin();
+              return Future.delayed(Duration.zero, () => false);
+            }
           : null,
       child: FittedBox(
         // width: cardWidth,

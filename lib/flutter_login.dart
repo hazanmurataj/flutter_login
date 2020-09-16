@@ -541,7 +541,7 @@ class _FlutterLoginState extends State<FlutterLogin>
     );
   }
 
-  void pageChangedListener(bool isSignUpPage){
+  void pageChangedListener(bool isSignUpPage) {
     print("SHOW APP ${!isSignUpPage}");
     setState(() {
       showAppLogo = !isSignUpPage;
@@ -587,52 +587,30 @@ class _FlutterLoginState extends State<FlutterLogin>
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
-//            SingleChildScrollView(
-//              child: Theme(
-//                data: theme,
-//                child: Stack(
-//                  alignment: Alignment.center,
-//                  children: <Widget>[
-//                    Positioned(
-//                      child: AuthCard(
-//                        key: authCardKey,
-//                        padding: EdgeInsets.only(top: cardTopPosition),
-//                        loadingController: _loadingController,
-//                        emailValidator: emailValidator,
-//                        passwordValidator: passwordValidator,
-//                        onSubmit: _reverseHeaderAnimation,
-//                        onSubmitCompleted: widget.onSubmitAnimationCompleted,
-//                        additionalSignUpFields: widget.additionalSignUpFields,
-//                        bottomWidget: widget.bottomWidget,
-//                      ),
-//                    ),
-//                    Positioned(
-//                      top: cardTopPosition - headerHeight - headerMargin,
-//                      child: _buildHeader(headerHeight, loginTheme),
-//                    ),
-//                  ],
-//                ),
-//              ),
-//            ),
-            SingleChildScrollView(
-              child: Theme(
-                data: theme,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                   Container(
-                     color: Colors.transparent,
-                     child: AnimatedContainer(
-                         curve: Curves.easeIn,
-                         duration: Duration(milliseconds: 700),
-                         height: showAppLogo ? headerHeight : 0,
-                         width: MediaQuery.of(context).size.width,
-                         child: Container(
-                             child: _buildHeader(headerHeight, loginTheme))),
-                   ),
-                    SizedBox(height: 16),
-                    AuthCard(
+            Theme(
+              data: theme,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  //logo
+                  Expanded(
+                    flex: 1,
+                    child: Container(
+                      color: Colors.transparent,
+                      child: AnimatedContainer(
+                          curve: Curves.easeIn,
+                          duration: Duration(milliseconds: 700),
+                          height: showAppLogo ? headerHeight : 0,
+                          width: MediaQuery.of(context).size.width,
+                          child: Container(
+                              child: _buildHeader(headerHeight, loginTheme))),
+                    ),
+                  ),
+                  // auth
+                  Expanded(
+                    flex: 3,
+                    child: AuthCard(
                       key: authCardKey,
                       loadingController: _loadingController,
                       emailValidator: emailValidator,
@@ -645,8 +623,8 @@ class _FlutterLoginState extends State<FlutterLogin>
                       bottomWidget: widget.bottomWidget,
                       privacyPolicyAccepted: widget.privacyPolicyAccepted,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
             if (!kReleaseMode && widget.showDebugButtons)
