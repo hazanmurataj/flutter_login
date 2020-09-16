@@ -766,6 +766,8 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
       ),
     );
 
+    var h = MediaQuery.of(context).size.height * 0.3;
+
     return ListView(
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
@@ -775,7 +777,9 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
             ? (widget.bottomWidget != null
                 ? Padding(
                     padding: EdgeInsets.only(top: 6),
-                    child: widget.bottomWidget,
+                    child: Container(
+                        height: h,
+                        child: widget.bottomWidget),
                   )
                 : Container())
             : Container()
