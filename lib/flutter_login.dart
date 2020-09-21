@@ -6,6 +6,7 @@ import 'package:flutter/scheduler.dart' show timeDilation;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:provider/provider.dart';
 import 'src/providers/login_theme.dart';
 import 'src/widgets/null_widget.dart';
@@ -562,74 +563,86 @@ class _FlutterLoginState extends State<FlutterLogin>
     final passwordValidator =
         widget.passwordValidator ?? FlutterLogin.defaultPasswordValidator;
 
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider.value(
-          value: widget.messages ?? LoginMessages(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => Auth(
-            onLogin: widget.onLogin,
-            onSignup: widget.onSignup,
-            onRecoverPassword: widget.onRecoverPassword,
+    return KeyboardVisibilityProvider(
+      child: MultiProvider(
+        providers: [
+          ChangeNotifierProvider.value(
+            value: widget.messages ?? LoginMessages(),
           ),
-        ),
-      ],
-      child: Scaffold(
-        // resizeToAvoidBottomInset: false,
-        body: Stack(
-          children: <Widget>[
-            GradientBox(
-              colors: [
-                loginTheme.pageColorLight ?? theme.primaryColor,
-                loginTheme.pageColorDark ?? theme.primaryColorDark,
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
+          ChangeNotifierProvider(
+            create: (context) => Auth(
+              onLogin: widget.onLogin,
+              onSignup: widget.onSignup,
+              onRecoverPassword: widget.onRecoverPassword,
             ),
-            Theme(
-              data: theme,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  //logo
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      color: Colors.transparent,
-                      child: AnimatedContainer(
-                          curve: Curves.easeIn,
-                          duration: Duration(milliseconds: 700),
-                          height: showAppLogo ? headerHeight : 0,
-                          width: MediaQuery.of(context).size.width,
-                          child: Container(
-                              child: _buildHeader(headerHeight, loginTheme))),
-                    ),
-                  ),
-                  // auth
-                  Expanded(
-                    flex: 3,
-                    child: AuthCard(
-                      key: authCardKey,
-                      loadingController: _loadingController,
-                      emailValidator: emailValidator,
-                      passwordValidator: passwordValidator,
-                      onSubmit: _reverseHeaderAnimation,
-                      paddingTop: headerHeight,
-                      pageChangedListener: pageChangedListener,
-                      onSubmitCompleted: widget.onSubmitAnimationCompleted,
-                      additionalSignUpFields: widget.additionalSignUpFields,
-                      bottomWidget: widget.bottomWidget,
-                      privacyPolicyAccepted: widget.privacyPolicyAccepted,
-                    ),
-                  ),
+          ),
+        ],
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          body: Stack(
+            children: <Widget>[
+              GradientBox(
+                colors: [
+                  loginTheme.pageColorLight ?? theme.primaryColor,
+                  loginTheme.pageColorDark ?? theme.primaryColorDark,
                 ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
               ),
-            ),
-            if (!kReleaseMode && widget.showDebugButtons)
-              _buildDebugAnimationButtons(),
-          ],
+              Theme(
+                data: theme,
+                child: LayoutBuilder(builder: (context, snapshot) {
+                  final bool isKeyboardVisible =
+                      KeyboardVisibilityProvider.isKeyboardVisible(context);
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      //logo
+                      Expanded(
+                        flex:
+                            isKeyboardVisible ? 0 : (showAppLogo ? 1 : 0),
+                        child: Container(
+                          color: Colors.transparent,
+                          child: AnimatedContainer(
+                              curve: Curves.easeIn,
+                              duration: Duration(milliseconds: 300),
+                                height: isKeyboardVisible ? 50 : (showAppLogo ? headerHeight : 50),
+                              width: MediaQuery.of(context).size.width,
+                              child: Container(
+                                  child: isKeyboardVisible
+                                      ? Container()
+                                      : (showAppLogo
+                                          ? _buildHeader(
+                                              headerHeight, loginTheme)
+                                          : Container()))),
+                        ),
+                      ),
+                      // auth
+                      Expanded(
+                        flex: 3,
+                        child: AuthCard(
+                          key: authCardKey,
+                          loadingController: _loadingController,
+                          emailValidator: emailValidator,
+                          passwordValidator: passwordValidator,
+                          onSubmit: _reverseHeaderAnimation,
+                          paddingTop: headerHeight,
+                          pageChangedListener: pageChangedListener,
+                          onSubmitCompleted: widget.onSubmitAnimationCompleted,
+                          additionalSignUpFields: widget.additionalSignUpFields,
+                          bottomWidget: widget.bottomWidget,
+                          privacyPolicyAccepted: widget.privacyPolicyAccepted,
+                        ),
+                      ),
+                    ],
+                  );
+                }),
+              ),
+              if (!kReleaseMode && widget.showDebugButtons)
+                _buildDebugAnimationButtons(),
+            ],
+          ),
         ),
       ),
     );
